@@ -1,4 +1,5 @@
 import streamlit as st
+from read import extract_sql_info
 
 
 def get_query_results(query_number, query_title, query_objective, query_code):
@@ -14,12 +15,14 @@ def get_query_results(query_number, query_title, query_objective, query_code):
     Returns:
     None
     """
-    with st.expander(f"Query {query_number}"):
-        st.header(query_title)
-        st.subheader(f"Business objective: {query_objective}")
+    with st.expander(f"Query {query_number}: {query_title}"):
+        st.markdown("#### Business objective")
+        st.write(query_objective)
 
-        st.dataframe(conn.query(query_code), use_container_width=True)
+        st.dataframe(conn.query(query_code), use_container_width=True, hide_index=True)
 
+
+query_info = extract_sql_info("./backend/final_queries.sql")
 
 st.set_page_config(layout="wide")
 
@@ -28,42 +31,17 @@ conn = st.experimental_connection("mysql", type="sql")
 
 # Set the title of the Streamlit app
 st.title("Group 7 - INSY 661 - Final Project")
+st.header("Browse queries")
 
-# Display the results of two SQL queries using the get_query_results function
-get_query_results(
-    1,
-    "Count of listing per category",
-    "Count of listing per category to determine the top-performing item categories.",
-    """
-    -- Objective: Count of listing per category to determine the top-performing item categories 
-    SELECT c.categoryName,
-        COUNT(l.listingID) AS listingCount
-    FROM listing l
-        LEFT JOIN category c ON c.categoryId = l.categoryId
-    GROUP BY c.categoryId
-    ORDER BY listingCount DESC;
-    -- BREAK
-    """,
-)
+# st.write(query_info)
 
-get_query_results(
-    2,
-    "Average number of messages exchanged per category",
-    "Find the average number of messages exchanged per category to unveil communication insights and interaction.",
-    """
-    SELECT c.categoryName,
-        AVG(m.messageCount) AS averageMessageCount
-    FROM category c
-        LEFT JOIN (
-            SELECT l.categoryID,
-                l.listingID,
-                COUNT(m.messageID) AS messageCount
-            FROM listing l
-                LEFT JOIN message m ON m.listingID = l.listingID
-            GROUP BY l.listingID
-        ) m ON m.categoryID = c.categoryID
-    GROUP BY c.categoryID
-    ORDER BY averageMessageCount DESC;
-    -- BREAK
-    """,
-)
+with st.container():
+    for query in query_info[:-2]:
+        query_number = query["Query Number"]
+        query_title = query["Query Title"]
+        query_objective = query["Query Objective"]
+        query_code = query["Query Code"]
+
+        get_query_results(query_number, query_title, query_objective, query_code)
+
+    # Query 19 and 20 require user input to be passed into the SQL code
