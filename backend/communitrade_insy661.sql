@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 16, 2023 at 03:56 AM
+-- Generation Time: Aug 19, 2023 at 09:41 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -171,7 +171,7 @@ INSERT INTO `listing` (`listingID`, `title`, `description`, `price`, `status`, `
 (76, 'Apple iPhone SE', 'lacus purus aliquet at feugiat non pretium quis lectus suspendisse potenti in eleifend quam a odio in hac habitasse platea dictumst maecenas ut massa', '437.56', 'A', '2023-05-10 16:49:13', NULL, 4, 82, 5),
 (77, 'Vintage Leather Jacket', 'diam in magna bibendum imperdiet nullam orci pede venenatis non sodales sed tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris laoreet ut', '88.55', 'A', '2023-06-25 03:08:47', NULL, 10, 14, 54),
 (78, 'Bose QuietComfort Earbuds', 'felis sed lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar sed nisl nunc rhoncus dui vel sem sed sagittis nam congue risus semper porta', '969.59', 'A', '2023-05-18 10:01:55', NULL, 27, 69, 86),
-(79, 'Sony WH-1000XM4 Wireless Noise-Canceling Over-Ear Headphones', 'cubilia curae nulla dapibus dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id', '663.65', 'A', '2023-06-08 07:37:18', NULL, 2, 5, 5),
+(79, 'Sony WH-1000XM4 Wireless Noise-Canceling Over-Ear Headphones', 'cubilia curae nulla dapibus dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id', '663.65', 'A', '2023-06-06 07:37:18', NULL, 2, 5, 5),
 (80, 'Peloton Exercise Bike', 'potenti nullam porttitor lacus at turpis donec posuere metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in magna bibendum imperdiet nullam orci pede', '520.41', 'A', '2023-06-29 05:57:28', NULL, 15, 9, 23),
 (81, 'Bose QuietComfort 35 II Wireless Bluetooth Headphones', 'nisl nunc rhoncus dui vel sem sed sagittis nam congue risus semper porta volutpat quam pede lobortis ligula sit amet eleifend', '260.52', 'A', '2023-06-10 18:40:11', NULL, 6, 31, 91),
 (82, 'JBL Flip 5 Waterproof Portable Bluetooth Speaker', 'primis in faucibus orci luctus et ultrices posuere cubilia curae duis faucibus accumsan odio curabitur convallis duis consequat dui nec nisi volutpat eleifend donec ut dolor', '764.08', 'A', '2023-04-14 13:51:48', NULL, 10, 59, 77),

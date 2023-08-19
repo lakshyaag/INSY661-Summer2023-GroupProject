@@ -33,8 +33,6 @@ conn = st.experimental_connection("mysql", type="sql")
 st.title("Group 7 - INSY 661 - Final Project")
 st.header("Browse queries")
 
-# st.write(query_info)
-
 with st.container():
     for query in query_info[:-2]:
         query_number = query["Query Number"]
@@ -44,4 +42,29 @@ with st.container():
 
         get_query_results(query_number, query_title, query_objective, query_code)
 
-    # Query 19 and 20 require user input to be passed into the SQL code
+    # Query 19 requires user input to be passed into the SQL code
+    with st.expander("Query 19: Query product listings by title and location"):
+        st.markdown("#### Business objective")
+        st.write(query_info[-2]["Query Objective"])
+
+        title = st.text_input("Enter a title for search for:")
+        location = st.text_input("Enter a location to search for:")
+
+        query_code = (
+            query_info[-2]["Query Code"]
+            .replace("{title}", title)
+            .replace("{location}", location)
+        )
+
+        st.dataframe(conn.query(query_code), use_container_width=True, hide_index=True)
+
+    # Query 20 requires user input to be passed into the SQL code
+    with st.expander("Query 20: Number of searches by keyword"):
+        st.markdown("#### Business objective")
+        st.write(query_info[-1]["Query Objective"])
+
+        keyword = st.text_input("Enter a keyword to search for:")
+
+        query_code = query_info[-1]["Query Code"].replace("{keyword}", keyword)
+
+        st.dataframe(conn.query(query_code), use_container_width=True, hide_index=True)

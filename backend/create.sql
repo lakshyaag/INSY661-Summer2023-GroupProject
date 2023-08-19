@@ -1,5 +1,5 @@
 -- @block create "users" table
-CREATE TABLE IF NOT EXISTS User (
+CREATE TABLE IF NOT EXISTS `User` (
     userID INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS User (
     PRIMARY KEY (userID)
 );
 -- @block create "searches" table
-CREATE TABLE IF NOT EXISTS Search (
+CREATE TABLE IF NOT EXISTS `Search` (
     searchID INT NOT NULL AUTO_INCREMENT,
     query VARCHAR(255) NOT NULL,
     timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS Search (
     FOREIGN KEY (userID) REFERENCES User(userID)
 );
 -- @block create "reviews" table
-CREATE TABLE IF NOT EXISTS Review (
+CREATE TABLE IF NOT EXISTS `Review` (
     reviewID INT NOT NULL AUTO_INCREMENT,
     rating INT NOT NULL,
     comment VARCHAR(255) NOT NULL,
@@ -28,21 +28,21 @@ CREATE TABLE IF NOT EXISTS Review (
     FOREIGN KEY (reviewReceiverID) REFERENCES User(userID)
 );
 -- @block create "location" table
-CREATE TABLE IF NOT EXISTS Location (
+CREATE TABLE IF NOT EXISTS `Location` (
     locationID INT NOT NULL AUTO_INCREMENT,
     city VARCHAR(255) NOT NULL,
     ZIPCode VARCHAR(255) NOT NULL,
     PRIMARY KEY (locationID)
 );
 -- @block create "category" table
-CREATE TABLE IF NOT EXISTS Category (
+CREATE TABLE IF NOT EXISTS `Category` (
     categoryID INT NOT NULL AUTO_INCREMENT,
     categoryName VARCHAR(255) NOT NULL,
     categoryDescription VARCHAR(255) NOT NULL,
     PRIMARY KEY (categoryID)
 );
 -- @block create "listing" table
-CREATE TABLE IF NOT EXISTS Listing (
+CREATE TABLE IF NOT EXISTS `Listing` (
     listingID INT NOT NULL AUTO_INCREMENT,
     title VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS Listing (
     FOREIGN KEY (sellerID) REFERENCES User(userID)
 );
 -- @block create "messages" table
-CREATE TABLE IF NOT EXISTS Message (
+CREATE TABLE IF NOT EXISTS `Message` (
     messageID INT NOT NULL AUTO_INCREMENT,
     messageText VARCHAR(255) NOT NULL,
     timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS Message (
     FOREIGN KEY (listingID) REFERENCES Listing(listingID)
 );
 -- @block create "media" table
-CREATE TABLE IF NOT EXISTS Media (
+CREATE TABLE IF NOT EXISTS `Media` (
     mediaID INT NOT NULL AUTO_INCREMENT,
     mediaURL VARCHAR(255) NOT NULL,
     listingID INT NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS Media (
     FOREIGN KEY (listingID) REFERENCES Listing(listingID)
 );
 -- @block create "saved listings" table
-CREATE TABLE IF NOT EXISTS SavedListing (
+CREATE TABLE IF NOT EXISTS `SavedListing` (
     savedListingID INT NOT NULL AUTO_INCREMENT,
     timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     userID INT NOT NULL,

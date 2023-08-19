@@ -6,8 +6,8 @@
  */
 SELECT c.categoryName,
     COUNT(l.listingID) AS listingCount
-FROM listing l
-    LEFT JOIN category c ON c.categoryId = l.categoryId
+FROM Listing l
+    LEFT JOIN Category c ON c.categoryId = l.categoryId
 GROUP BY c.categoryId
 ORDER BY listingCount DESC;
 -- BREAK
@@ -19,13 +19,13 @@ ORDER BY listingCount DESC;
  */
 SELECT c.categoryName,
     AVG(m.messageCount) AS averageMessageCount
-FROM category c
+FROM Category c
     LEFT JOIN (
         SELECT l.categoryID,
             l.listingID,
             COUNT(m.messageID) AS messageCount
-        FROM listing l
-            LEFT JOIN message m ON m.listingID = l.listingID
+        FROM Listing l
+            LEFT JOIN Message m ON m.listingID = l.listingID
         GROUP BY l.listingID
     ) m ON m.categoryID = c.categoryID
 GROUP BY c.categoryID
@@ -42,7 +42,7 @@ SELECT currentMonth.categoryID,
     MONTHNAME(
         STR_TO_DATE(
             CONCAT('2023-', currentMonth.month, '-01'),
-            "%Y-%m-%d"
+            '%Y-%m-%d'
         )
     ) as month,
     currentMonth.listingCount,
@@ -59,8 +59,8 @@ FROM (
             c.categoryName,
             MONTH(l.datePosted) AS month,
             COUNT(l.listingID) AS listingCount
-        FROM listing l
-            LEFT JOIN category c ON c.categoryID = l.categoryID
+        FROM Listing l
+            LEFT JOIN Category c ON c.categoryID = l.categoryID
         GROUP BY c.categoryID,
             c.categoryName,
             MONTH(l.datePosted)
@@ -70,8 +70,8 @@ FROM (
             c.categoryName,
             MONTH(l.datePosted) AS month,
             COUNT(l.listingID) AS listingCount
-        FROM listing l
-            LEFT JOIN category c ON c.categoryID = l.categoryID
+        FROM Listing l
+            LEFT JOIN Category c ON c.categoryID = l.categoryID
         GROUP BY c.categoryID,
             c.categoryName,
             MONTH(l.datePosted)
@@ -90,9 +90,9 @@ ORDER BY currentMonth.categoryID ASC,
 SELECT c.categoryID,
     c.categoryName AS Category,
     ROUND(AVG(l.price), 2) AS Average_Listing_Price
-FROM listing l
-    JOIN category c ON l.categoryID = c.categoryID
-WHERE l.status = "A"
+FROM Listing l
+    JOIN Category c ON l.categoryID = c.categoryID
+WHERE l.status = 'A'
 GROUP BY l.categoryID
 ORDER BY l.categoryID DESC;
 -- BREAK
@@ -102,15 +102,15 @@ ORDER BY l.categoryID DESC;
  For example, if the minimum price in the 'Books' category is very low, it suggests that there are affordable options available for buyers interested in this category.
  This information can be useful for price-sensitive buyers and can help sellers understand the price range within their category.
  */
-SELECT category.categoryID,
-    category.categoryName,
-    MIN(listing.price) as minimumListingPrice
-FROM category,
-    listing
-WHERE category.categoryID = listing.categoryID
+SELECT c.categoryID,
+    c.categoryName,
+    MIN(l.price) as minimumListingPrice
+FROM Category c,
+    Listing l
+WHERE c.categoryID = l.categoryID
 GROUP BY categoryID,
     categoryName
-ORDER BY MIN(listing.Price);
+ORDER BY MIN(l.Price);
 -- BREAK
 -- 6. Underperforming categories
 /*
@@ -137,8 +137,8 @@ ORDER BY Items DESC;
  */
 SELECT u.userName,
     COUNT(s.listingID) AS savedListingCount
-FROM savedListing s
-    LEFT JOIN user u ON u.userID = s.userID
+FROM SavedListing s
+    LEFT JOIN User u ON u.userID = s.userID
 GROUP BY u.userID
 ORDER BY savedListingCount DESC;
 -- BREAK
@@ -154,14 +154,14 @@ SELECT temp2.sellerID,
 FROM (
         SELECT sellerID,
             COUNT(status) as total_listings
-        FROM listing
+        FROM Listing
         GROUP BY sellerID
     ) as temp2,
     (
         SELECT sellerID,
             COUNT(status) AS sold_listings
-        FROM listing
-        WHERE status = "S"
+        FROM Listing
+        WHERE status = 'S'
         GROUP BY sellerID
     ) as temp
 WHERE temp.sellerID = temp2.sellerID
@@ -176,8 +176,8 @@ ORDER BY conversion;
 SELECT u.userID,
     u.username,
     COUNT(r.reviewID) AS reviewsCount
-FROM user u
-    JOIN review r ON u.userID = r.reviewPosterID
+FROM User u
+    JOIN Review r ON u.userID = r.reviewPosterID
 GROUP BY u.userID,
     u.username
 ORDER BY reviewsCount DESC;
@@ -197,12 +197,12 @@ FROM -- Sold products which have media per category
         SELECT c.categoryName,
             c.categoryID,
             COUNT(l.listingID) AS sold_w_media
-        FROM listing l
-            JOIN category c ON l.categoryID = c.categoryID
-        WHERE l.status = "S"
+        FROM Listing l
+            JOIN Category c ON l.categoryID = c.categoryID
+        WHERE l.status = 'S'
             AND l.listingID IN (
                 SELECT DISTINCT m.listingID
-                FROM media m
+                FROM Media m
             )
         GROUP BY c.categoryName,
             c.categoryID
@@ -212,9 +212,9 @@ FROM -- Sold products which have media per category
         SELECT c.categoryName,
             c.categoryID,
             COUNT(l.listingID) AS total_sold
-        FROM listing l
-            JOIN category c ON l.categoryID = c.categoryID
-        WHERE l.status = "S"
+        FROM Listing l
+            JOIN Category c ON l.categoryID = c.categoryID
+        WHERE l.status = 'S'
         GROUP BY c.categoryName,
             c.categoryID
     ) AS sales_total ON sales_media.categoryID = sales_total.categoryID;
@@ -227,8 +227,8 @@ FROM -- Sold products which have media per category
  */
 SELECT u.userName,
     COUNT(l.listingID) AS activeListingCount
-FROM listing l
-    INNER JOIN user u ON u.userID = l.sellerID
+FROM Listing l
+    INNER JOIN User u ON u.userID = l.sellerID
 WHERE l.status = 'A'
 GROUP BY l.sellerID
 ORDER BY activeListingCount DESC;
@@ -242,8 +242,8 @@ ORDER BY activeListingCount DESC;
 SELECT sellerID,
     COUNT(listingID) AS numListingsSold,
     SUM(price) AS totalRevenue
-FROM listing
-WHERE status = "S"
+FROM Listing
+WHERE status = 'S'
 GROUP BY sellerID
 ORDER BY totalRevenue DESC;
 -- BREAK
@@ -256,9 +256,9 @@ ORDER BY totalRevenue DESC;
 SELECT loc.city,
     u.userName,
     COUNT(l.listingID) AS listingCount
-FROM listing l
-    INNER JOIN user u ON u.userID = l.sellerID
-    INNER JOIN location loc ON loc.locationID = l.locationID
+FROM Listing l
+    INNER JOIN User u ON u.userID = l.sellerID
+    INNER JOIN Location loc ON loc.locationID = l.locationID
 GROUP BY u.userID,
     l.locationID
 ORDER BY listingCount DESC,
@@ -274,8 +274,8 @@ SELECT u.userID,
     u.username,
     COUNT(r.rating) AS numRatings,
     AVG(r.rating) AS avgRating
-FROM user u
-    JOIN review r ON u.userID = r.reviewReceiverID
+FROM User u
+    JOIN Review r ON u.userID = r.reviewReceiverID
 GROUP BY u.userID,
     u.username
 ORDER BY numRatings DESC,
@@ -291,9 +291,9 @@ SELECT u.userID,
     l.listingID,
     u.userName,
     COUNT(DISTINCT m.receiverID) AS uniqueBuyerCount
-FROM listing l
-    INNER JOIN user u ON u.userID = l.sellerID
-    INNER JOIN message m ON m.listingID = l.listingID
+FROM Listing l
+    INNER JOIN User u ON u.userID = l.sellerID
+    INNER JOIN Message m ON m.listingID = l.listingID
 GROUP BY u.userID,
     l.listingID
 ORDER BY u.userID ASC,
@@ -309,8 +309,8 @@ ORDER BY u.userID ASC,
 SELECT l.listingID,
     l.title,
     COUNT(sl.userID) as savedBy
-FROM listing l
-    LEFT JOIN savedListing sl ON l.listingID = sl.listingID
+FROM Listing l
+    LEFT JOIN SavedListing sl ON l.listingID = sl.listingID
 GROUP BY l.listingID
 ORDER BY savedBy DESC;
 -- BREAK
@@ -323,8 +323,8 @@ ORDER BY savedBy DESC;
 SELECT l1.locationID,
     l2.city,
     COUNT(l1.listingID) AS TotalListings
-FROM listing l1
-    LEFT JOIN location l2 ON l2.locationID = l1.locationID
+FROM Listing l1
+    LEFT JOIN Location l2 ON l2.locationID = l1.locationID
 GROUP BY l1.locationID
 ORDER BY TotalListings DESC;
 -- BREAK
@@ -337,34 +337,34 @@ ORDER BY TotalListings DESC;
 SELECT listingID,
     title,
     datePosted
-FROM listing
-WHERE status = "A"
+FROM Listing
+WHERE status = 'A'
 ORDER BY `Listing`.`datePosted` ASC
 LIMIT 10;
 -- BREAK
--- 18. Query product listings by title and location
+-- 19. Query product listings by title and location
 /*
  Objective: This query provides a way to search for specific product listings based on their title and location.
  For example, if a user is looking for a 'Vintage Lamp' in 'New York', this query will return all listings that match these criteria.
  This feature enhances the user experience by making it easier to find specific items in a preferred location, potentially increasing the likelihood of transactions.
  */
-SELECT listing.listingID,
+SELECT l.listingID,
     title,
     description,
     price,
     status,
     datePosted,
-    category.categoryName,
-    location.city,
-    user.userName
-FROM listing
-    INNER JOIN location ON location.locationID = listing.locationID
-    INNER JOIN category ON category.categoryID = listing.categoryID
-    INNER JOIN user ON user.userID = listing.sellerID
+    c.categoryName,
+    lo.city,
+    u.userName
+FROM Listing l
+    INNER JOIN Location lo ON lo.locationID = l.locationID
+    INNER JOIN Category c ON c.categoryID = l.categoryID
+    INNER JOIN User u ON u.userID = l.sellerID
 WHERE title LIKE '%{title}%'
-    AND location.city LIKE '%{location}%';
+    AND lo.city LIKE '%{location}%';
 -- BREAK
--- 19. Number of searches by keyword
+-- 20. Number of searches by keyword
 /*
  Objective: This query provides insight into the most searched keywords on the platform.
  For example, if the keyword 'vintage furniture' has a high search count, it suggests that there is a high demand or interest in vintage furniture among users.
@@ -372,7 +372,7 @@ WHERE title LIKE '%{title}%'
  */
 SELECT query,
     COUNT(searchID) AS searchCount
-FROM search
+FROM Search
 WHERE query LIKE '%{keyword}%'
 GROUP BY query
 ORDER BY searchCount DESC;
