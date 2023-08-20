@@ -19,7 +19,13 @@ def get_query_results(query_number, query_title, query_objective, query_code):
         st.markdown("#### Business objective")
         st.write(query_objective)
 
-        st.dataframe(conn.query(query_code), use_container_width=True, hide_index=True)
+        st.code(query_code, language="sql", line_numbers=True)
+
+        run_query = st.button("Run query", key=query_number)
+        if run_query:
+            st.dataframe(
+                conn.query(query_code), use_container_width=True, hide_index=True
+            )
 
 
 query_info = extract_sql_info("./backend/final_queries.sql")
@@ -33,7 +39,18 @@ conn = st.experimental_connection("mysql", type="sql")
 st.title("Group 7 - INSY 661 - Final Project")
 st.header("Browse queries")
 
+
 with st.container():
+    # User-generated input
+    with st.expander("User-generated input"):
+        query_code = st.text_input("Enter your query:")
+
+        run_query = st.button("Run query", key="0")
+        if run_query and query_code != "":
+            st.dataframe(
+                conn.query(query_code), use_container_width=True, hide_index=True
+            )
+
     for query in query_info[:-2]:
         query_number = query["Query Number"]
         query_title = query["Query Title"]
@@ -56,7 +73,13 @@ with st.container():
             .replace("{location}", location)
         )
 
-        st.dataframe(conn.query(query_code), use_container_width=True, hide_index=True)
+        st.code(query_code, language="sql", line_numbers=True)
+
+        run_query = st.button("Run query", key="19")
+        if run_query:
+            st.dataframe(
+                conn.query(query_code), use_container_width=True, hide_index=True
+            )
 
     # Query 20 requires user input to be passed into the SQL code
     with st.expander("Query 20: Number of searches by keyword"):
@@ -66,5 +89,10 @@ with st.container():
         keyword = st.text_input("Enter a keyword to search for:")
 
         query_code = query_info[-1]["Query Code"].replace("{keyword}", keyword)
+        st.code(query_code, language="sql", line_numbers=True)
 
-        st.dataframe(conn.query(query_code), use_container_width=True, hide_index=True)
+        run_query = st.button("Run query", key="20")
+        if run_query:
+            st.dataframe(
+                conn.query(query_code), use_container_width=True, hide_index=True
+            )
