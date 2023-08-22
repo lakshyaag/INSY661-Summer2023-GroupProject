@@ -19,11 +19,13 @@ def get_query_results(query_number, query_title, query_objective, query_code):
         st.markdown("#### Business objective")
         st.write(query_objective)
 
+        st.markdown("#### SQL code")
         st.code(query_code, language="sql", line_numbers=True)
 
         run_query = st.button("Run query", key=query_number)
         if run_query:
             with st.spinner("Running query..."):
+                st.markdown("#### Query results")
                 st.dataframe(
                     conn.query(query_code), use_container_width=True, hide_index=True
                 )
@@ -47,11 +49,15 @@ with queries:
     with st.container():
         # User-generated input
         with st.expander("User-generated query"):
-            query_code = st.text_input("Enter your query:")
+            query_code = st.text_area("Enter your query:")
 
             run_query = st.button("Run query", key="0")
             if run_query and query_code != "":
+                st.markdown("#### SQL code")
+                st.code(query_code, language="sql", line_numbers=True)
+
                 with st.spinner("Running query..."):
+                    st.markdown("#### Query results")
                     st.dataframe(
                         conn.query(query_code),
                         use_container_width=True,
@@ -74,22 +80,25 @@ with queries:
             title = st.text_input("Enter a title for search for:")
             location = st.text_input("Enter a location to search for:")
 
-            query_code = (
-                query_info[-2]["Query Code"]
-                .replace("{title}", title)
-                .replace("{location}", location)
-            )
+            if title or location:
+                query_code = (
+                    query_info[-2]["Query Code"]
+                    .replace("{title}", title)
+                    .replace("{location}", location)
+                )
 
-            st.code(query_code, language="sql", line_numbers=True)
+                st.markdown("#### SQL code")
+                st.code(query_code, language="sql", line_numbers=True)
 
-            run_query = st.button("Run query", key="19")
-            if run_query:
-                with st.spinner("Running query..."):
-                    st.dataframe(
-                        conn.query(query_code),
-                        use_container_width=True,
-                        hide_index=True,
-                    )
+                run_query = st.button("Run query", key="19")
+                if run_query:
+                    with st.spinner("Running query..."):
+                        st.markdown("#### Query results")
+                        st.dataframe(
+                            conn.query(query_code),
+                            use_container_width=True,
+                            hide_index=True,
+                        )
 
         # Query 20 requires user input to be passed into the SQL code
         with st.expander("Query 20: Number of searches by keyword"):
@@ -99,11 +108,13 @@ with queries:
             keyword = st.text_input("Enter a keyword to search for:")
 
             query_code = query_info[-1]["Query Code"].replace("{keyword}", keyword)
+            st.markdown("#### SQL code")
             st.code(query_code, language="sql", line_numbers=True)
 
             run_query = st.button("Run query", key="20")
             if run_query:
                 with st.spinner("Running query..."):
+                    st.markdown("#### Query results")
                     st.dataframe(
                         conn.query(query_code),
                         use_container_width=True,

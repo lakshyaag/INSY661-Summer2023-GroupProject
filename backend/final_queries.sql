@@ -104,13 +104,17 @@ ORDER BY l.categoryID DESC;
  */
 SELECT c.categoryID,
     c.categoryName,
-    MIN(l.price) as minimumListingPrice
-FROM Category c,
-    Listing l
-WHERE c.categoryID = l.categoryID
-GROUP BY categoryID,
-    categoryName
-ORDER BY MIN(l.Price);
+    l.title,
+    l.description,
+    FORMAT(l.price, 2) AS minimumListingPrice
+FROM Category c
+    JOIN Listing l ON c.categoryID = l.categoryID
+WHERE l.price = (
+        SELECT MIN(l2.price)
+        FROM Listing l2
+        WHERE l2.categoryID = c.categoryID
+    )
+ORDER BY l.price;
 -- BREAK
 -- 6. Underperforming categories
 /*
@@ -356,7 +360,7 @@ SELECT l.listingID,
     datePosted,
     c.categoryName,
     lo.city,
-    u.userName
+    u.userName as sellerName
 FROM Listing l
     INNER JOIN Location lo ON lo.locationID = l.locationID
     INNER JOIN Category c ON c.categoryID = l.categoryID
