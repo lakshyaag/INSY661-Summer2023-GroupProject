@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>INSY 661 - Group Project - Group 7</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <h1 id="insy-661---group-project---group-7">INSY 661 - Group Project - Group 7</h1>
+<p>This project contains backend SQL queries and a frontend application built with Streamlit.</p>
+<h2 id="project-structure">Project Structure</h2>
+<p>The project has the following structure:</p>
+<ul>
+<li><code>backend</code>: This directory contains the SQL queries.</li>
+<li><code>frontend</code>: This directory contains the Python scripts for the Streamlit application.</li>
+<li><code>.streamlit</code>: This directory contains the Streamlit configuration and secrets files.</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Python 3.6 or higher</li>
+<li>pip (Python package installer)</li>
+<li>phpMyAdmin</li>
+</ul>
+<h2 id="how-to-run">How to Run</h2>
+<p>Follow these steps to run the project:</p>
+<ol>
+<li>
+<p><strong>Install the required Python packages</strong></p>
+<p>Navigate to the project directory and run the following command in your terminal:</p>
+<pre><code class="language-bash">pip install -r requirements.txt
+</code></pre>
+</li>
+<li>
+<p><strong>Import the SQL file to phpMyAdmin</strong></p>
+<ul>
+<li>Open phpMyAdmin in your web browser.</li>
+<li>Select your database on the left side. If you haven't created a database yet, create one.</li>
+<li>Click on the 'Import' tab at the top.</li>
+<li>Click 'Choose File' and select the <code>backend/communitrade_insy661.sql</code> file.</li>
+<li>Click 'Go' at the bottom to start the import process.</li>
+</ul>
+</li>
+<li>
+<p><strong>Check the SQL file</strong></p>
+<p>Ensure that the <code>backend/final_queries.sql</code> file exists. This file contains the SQL queries that the application uses.</p>
+</li>
+<li>
+<p><strong>Update the Database Credentials</strong></p>
+<ul>
+<li>Open the <code>secrets.toml</code> file located in the <code>.streamlit</code> directory.</li>
+<li>Under <code>[connections.mysql]</code>, update the following fields with your own database credentials:
+<ul>
+<li><code>host</code>: Your database host</li>
+<li><code>port</code>: Your database port</li>
+<li><code>database</code>: Your database name</li>
+<li><code>username</code>: Your database username</li>
+<li><code>password</code>: Your database password</li>
+</ul>
+</li>
+<li>Save the changes.</li>
+</ul>
+<p>The updated <code>secrets.toml</code> should look like this:</p>
+<pre><code class="language-toml"><span class="hljs-section">[connections.mysql]</span>
+<span class="hljs-attr">dialect</span> = <span class="hljs-string">&quot;mysql&quot;</span>
+<span class="hljs-attr">host</span> = <span class="hljs-string">&quot;&lt;your_database_host&gt;&quot;</span>
+<span class="hljs-attr">port</span> = &lt;your_database_port&gt;
+<span class="hljs-attr">database</span> = <span class="hljs-string">&quot;&lt;your_database_name&gt;&quot;</span>
+<span class="hljs-attr">username</span> = <span class="hljs-string">&quot;&lt;your_database_username&gt;&quot;</span>
+<span class="hljs-attr">password</span> = <span class="hljs-string">&quot;&lt;your_database_password&gt;&quot;</span>
+</code></pre>
+<p>Replace <code>&lt;your_database_host&gt;</code>, <code>&lt;your_database_port&gt;</code>, <code>&lt;your_database_name&gt;</code>, <code>&lt;your_database_username&gt;</code>, and <code>&lt;your_database_password&gt;</code> with your actual database credentials.</p>
+</li>
+<li>
+<p><strong>Run the Streamlit application</strong></p>
+<p>Use the following command in your terminal to run the Streamlit application:</p>
+<pre><code class="language-bash">streamlit run frontend/app.py
+</code></pre>
+<p>The application will start, and you can access it by opening your web browser and navigating to <code>localhost:8501</code>.</p>
+</li>
+</ol>
+
+        
+        
+    </body>
+    </html>
